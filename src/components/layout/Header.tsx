@@ -3,7 +3,7 @@
 import { Bell, MessageSquare, Menu, ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-
+import Link from "next/link";
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -60,6 +60,30 @@ export default function Header({ onMenuClick }: HeaderProps) {
         </div>
       );
     }
+    if (pathname === "/event/create") {
+      return (
+        <div className="flex flex-col">
+          <div className="flex items-center gap-3">
+            <button onClick={() => router.back()} className="text-slate-600 hover:text-slate-900 transition-colors">
+              <ArrowLeft size={20} />
+            </button>
+            <h1 className="text-xl lg:text-2xl font-bold text-slate-800 leading-none">Create New Event</h1>
+          </div>
+        </div>
+      );
+    }
+    if (pathname === "/messages") {
+      return (
+        <div className="flex flex-col">
+          <div className="flex items-center gap-3">
+            <button onClick={() => router.back()} className="text-slate-600 hover:text-slate-900 transition-colors">
+              <ArrowLeft size={20} />
+            </button>
+            <h1 className="text-xl lg:text-2xl font-bold text-slate-800 leading-none">Mr. John</h1>
+          </div>
+        </div>
+      );
+    }
     return null; // For dashboard, manage-users, manage-jobs (list), it will render nothing or standard.
   };
 
@@ -82,10 +106,10 @@ export default function Header({ onMenuClick }: HeaderProps) {
       {/* Right: actions + user */}
       <div className="flex items-center gap-2 lg:gap-3">
         {/* Message icon */}
-        <button className="relative p-2 rounded-full hover:bg-slate-100 text-slate-500 transition-colors">
+        <Link href="/messages" className="relative p-2 rounded-full hover:bg-slate-100 text-slate-500 transition-colors block">
           <MessageSquare size={19} />
           <span className="absolute top-1 right-1 w-2 h-2 bg-orange-500 rounded-full" />
-        </button>
+        </Link>
 
         {/* Notification bell */}
         <button className="relative p-2 rounded-full hover:bg-slate-100 text-slate-500 transition-colors">
