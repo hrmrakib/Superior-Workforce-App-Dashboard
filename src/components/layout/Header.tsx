@@ -84,11 +84,20 @@ export default function Header({ onMenuClick }: HeaderProps) {
         </div>
       );
     }
+    if (pathname === "/settings") {
+      return (
+        <div className="flex flex-col">
+          <div className="flex items-center gap-3">
+            <h1 className="text-xl lg:text-2xl font-bold text-slate-800 leading-none">Settings</h1>
+          </div>
+        </div>
+      );
+    }
     return null; // For dashboard, manage-users, manage-jobs (list), it will render nothing or standard.
   };
 
   return (
-    <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 lg:px-6 shrink-0">
+    <header className="h-24 bg-white border-b border-slate-200 flex items-center justify-between px-4 lg:px-6 shrink-0 m-6 rounded-lg">
       {/* Left: hamburger for mobile */}
       <button
         onClick={onMenuClick}
@@ -137,10 +146,10 @@ export default function Header({ onMenuClick }: HeaderProps) {
           </div>
         </div>
       </div>
-      
-      {/* Mobile Title (placed below main header row if needed, but since it's an app header, it can just be hidden on very small screens or we can keep it simple. Let's just render it inline for mobile too if possible, but the original layout just had a hamburger. For now, let's allow it to show on mobile next to hamburger if there's space) */}
+
+      {/* Mobile Title */}
       <div className="lg:hidden flex-1 ml-3 flex items-center overflow-hidden">
-         {renderLeftContent()}
+        {renderLeftContent()}
       </div>
     </header>
   );

@@ -12,7 +12,9 @@ import {
   Settings,
   LogOut,
   X,
+  MessageSquare,
 } from "lucide-react";
+import Image from "next/image";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -25,6 +27,7 @@ const navItems = [
   { href: "/manage-jobs", label: "Manage Jobs", icon: Briefcase },
   { href: "/send-notification", label: "Send Notification", icon: Bell },
   { href: "/event", label: "Event", icon: Calendar },
+  { href: "/messages", label: "Messages", icon: MessageSquare },
   { href: "/support-report", label: "Support/Report", icon: FileText },
   { href: "/settings", label: "Settings", icon: Settings },
 ];
@@ -52,21 +55,17 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         `}
       >
         {/* Logo */}
-        <div className="flex items-center justify-between h-16 px-5 border-b border-slate-200 shrink-0">
-          <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path
-                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"
-                  fill="white"
-                />
-              </svg>
-            </div>
-            <div>
-              <p className="text-xs font-bold text-slate-800 leading-none">SUPERIOR</p>
-              <p className="text-[10px] text-slate-500 leading-none mt-0.5">WORKFORCE</p>
-            </div>
+        <div className="flex items-center justify-center h-20 px-5 shrink-0">
+          <div className="flex items-center justify-center h-full py-2">
+            <Image
+              src="/logo.png"
+              alt="Logo"
+              width={500}
+              height={250}
+              className="h-full w-auto object-contain"
+            />
           </div>
+
           {/* Close button for mobile */}
           <button
             onClick={onClose}
@@ -78,10 +77,10 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
         {/* Navigation */}
         <nav className="flex-1 overflow-y-auto py-4 px-3">
-          <ul className="space-y-0.5">
+          <ul className="space-y-2">
             {navItems.map(({ href, label, icon: Icon }) => {
-              const isActive = 
-                pathname === href || 
+              const isActive =
+                pathname === href ||
                 (href !== "/dashboard" && pathname.startsWith(href)) ||
                 (href === "/send-notification" && pathname === "/create-notification");
               return (
@@ -92,16 +91,15 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                     className={`
                       flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium
                       transition-colors duration-150
-                      ${
-                        isActive
-                          ? "bg-teal-600 text-white"
-                          : "text-slate-600 hover:bg-slate-100 hover:text-slate-800"
+                      ${isActive
+                        ? "bg-[#E5F1FF] text-[#3E4955"
+                        : "text-slate-600 hover:bg-slate-100 hover:text-slate-800"
                       }
                     `}
                   >
                     <Icon
                       size={17}
-                      className={isActive ? "text-white" : "text-slate-400"}
+                      className={isActive ? "text-[#3E4955]" : "text-[#5E6670]"}
                     />
                     {label}
                   </Link>
