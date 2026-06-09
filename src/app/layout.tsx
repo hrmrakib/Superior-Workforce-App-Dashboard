@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Providers from "@/redux/features/Providers";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -10,7 +11,8 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Superior Workforce — Admin Dashboard",
-  description: "Manage users, jobs, notifications and more from the Superior Workforce admin panel.",
+  description:
+    "Manage users, jobs, notifications and more from the Superior Workforce admin panel.",
 };
 
 export default function RootLayout({
@@ -19,8 +21,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} h-full`}>
-      <body className="h-full antialiased">{children}</body>
+    <html lang='en' className={`${inter.variable} h-full`}>
+      <body className='h-full antialiased'>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
