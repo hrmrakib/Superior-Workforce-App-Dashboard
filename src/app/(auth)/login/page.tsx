@@ -4,6 +4,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Eye, EyeOff, Mail, Lock } from "lucide-react";
+import { saveTokens } from "@/service/authService";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -56,16 +57,27 @@ export default function LoginPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        // Fallback to generic message if backend doesn't provide a precise error description
         throw new Error(data.message || "Invalid credentials or server error.");
       }
 
-      // SUCCESS: Handle your tokens / routing here
-      console.log("Login successful:", data);
+      if (data.success && data.data) {
+        const accessToken = data.data.access;
 
-      // Example: Save token and redirect
-      // localStorage.setItem("token", data.token);
-      // window.location.href = "/dashboard";
+        // 1. Save token safely to localStorage
+        localStorage.setItem("access_token", accessToken);
+
+        // 2. Pass it to your custom token storage handler (e.g., setting cookies)
+        if (typeof saveTokens === "function") {
+          await saveTokens(accessToken);
+        }
+
+        console.log("Login successful! User:", data.data.user.full_name);
+
+        // 3. Clean routing path to dashboard
+        window.location.href = "/dashboard";
+      } else {
+        throw new Error("Unexpected response structure from server.");
+      }
     } catch (error: any) {
       console.error("Login Error:", error);
       setApiError(error.message || "Something went wrong. Please try again.");
