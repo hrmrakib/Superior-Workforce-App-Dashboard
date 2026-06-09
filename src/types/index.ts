@@ -1,6 +1,6 @@
 // ─── User & Related Types ──────────────────────────────────────────────────
 
-export type UserStatus = "Active" | "Suspend" | "Pending";
+export type UserStatus = "Active" | "Inactive" | "Suspend" | "Pending";
 export type UserRole = "Job Seeker" | "Employer" | "Admin";
 
 export interface User {

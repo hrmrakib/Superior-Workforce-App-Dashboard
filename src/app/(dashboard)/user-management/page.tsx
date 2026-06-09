@@ -25,17 +25,18 @@ export default function UserManagementPage() {
   const [activeModal, setActiveModal] = useState<UserDetail | null>(null);
   const [pendingModal, setPendingModal] = useState<UserDetail | null>(null);
 
-  const sourceList = useMemo(() =>
-    allUsers.filter((u) =>
-      activeTab === "active" ? u.status === "Active" : u.status === "Pending"
-    ),
-    [activeTab]
+  const sourceList = useMemo(
+    () =>
+      allUsers.filter((u) =>
+        activeTab === "active" ? u.status === "Active" : u.status === "Pending",
+      ),
+    [activeTab],
   );
 
   const totalPages = Math.max(1, Math.ceil(sourceList.length / ITEMS_PER_PAGE));
   const paginated = sourceList.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
+    currentPage * ITEMS_PER_PAGE,
   );
 
   const handleView = (user: User) => {
@@ -58,16 +59,16 @@ export default function UserManagementPage() {
 
   const handleSelectOne = (id: string, checked: boolean) => {
     setSelectedIds((prev) =>
-      checked ? [...prev, id] : prev.filter((i) => i !== id)
+      checked ? [...prev, id] : prev.filter((i) => i !== id),
     );
   };
 
   return (
     <>
       {/* Page Title */}
-      <div className="mb-5">
-        <h1 className="text-2xl font-bold text-slate-800">User Management</h1>
-        <p className="text-sm text-slate-500 mt-0.5">
+      <div className='mb-5'>
+        <h1 className='text-2xl font-bold text-slate-800'>User Management</h1>
+        <p className='text-sm text-slate-500 mt-0.5'>
           From here you can manage your all user
         </p>
       </div>
@@ -76,9 +77,9 @@ export default function UserManagementPage() {
       <StatsCards stats={statsData} />
 
       {/* Table Card */}
-      <div className="mt-5 bg-white rounded-xl border border-slate-200 overflow-hidden">
+      <div className='mt-5 bg-white rounded-xl border border-slate-200 overflow-hidden'>
         {/* Tabs */}
-        <div className="flex items-center gap-4 px-5 py-3 border-b border-slate-100">
+        <div className='flex items-center gap-4 px-5 py-3 border-b border-slate-100'>
           <button
             onClick={() => handleTabChange("active")}
             className={`pb-1 text-sm font-semibold border-b-2 transition-colors ${
@@ -113,7 +114,7 @@ export default function UserManagementPage() {
         />
 
         {/* Pagination */}
-        <div className="border-t border-slate-100">
+        <div className='border-t border-slate-100'>
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
