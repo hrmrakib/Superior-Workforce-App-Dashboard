@@ -199,7 +199,7 @@ export default function SupportPage() {
         ))}
       </div>
 
-      {reports.length > 0 && (
+      {reports.length > totalItems && (
         <div className='flex justify-center mt-8'>
           <button className='px-6 py-2 bg-white border border-slate-200 text-slate-600 text-sm font-semibold rounded-lg hover:bg-slate-50 transition-colors shadow-sm'>
             LOAD MORE
