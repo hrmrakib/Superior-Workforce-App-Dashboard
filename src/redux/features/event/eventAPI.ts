@@ -34,7 +34,7 @@ const eventAPI = baseAPI.injectEndpoints({
 
     deleteEvent: build.mutation({
       query: (eventId) => ({
-        url: `/admin_dashboard/events/${eventId}/`,
+        url: `/admin_dashboard/admin/events/${eventId}/`,
         method: "DELETE",
       }),
     }),
