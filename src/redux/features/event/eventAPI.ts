@@ -7,6 +7,7 @@ const eventAPI = baseAPI.injectEndpoints({
         url: "/admin_dashboard/admin/events/",
         method: "GET",
       }),
+      providesTags: ["Event"],
     }),
 
     getSingleEvent: build.query({
@@ -14,6 +15,7 @@ const eventAPI = baseAPI.injectEndpoints({
         url: `/admin_dashboard/events/${eventId}/`,
         method: "GET",
       }),
+      providesTags: ["Event"],
     }),
 
     createEvent: build.mutation({
@@ -22,6 +24,7 @@ const eventAPI = baseAPI.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["Event"],
     }),
 
     updateEvent: build.mutation({
@@ -30,6 +33,7 @@ const eventAPI = baseAPI.injectEndpoints({
         method: "PUT",
         body: data,
       }),
+      invalidatesTags: ["Event"],
     }),
 
     deleteEvent: build.mutation({
@@ -37,6 +41,7 @@ const eventAPI = baseAPI.injectEndpoints({
         url: `/admin_dashboard/admin/events/${eventId}/`,
         method: "DELETE",
       }),
+      invalidatesTags: ["Event"],
     }),
   }),
 });
