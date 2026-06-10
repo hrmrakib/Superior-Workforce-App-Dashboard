@@ -12,7 +12,7 @@ const eventAPI = baseAPI.injectEndpoints({
 
     getSingleEvent: build.query({
       query: (eventId: string) => ({
-        url: `/admin_dashboard/events/${eventId}/`,
+        url: `/admin_dashboard/admin/events/${eventId}/`,
         method: "GET",
       }),
       providesTags: ["Event"],
@@ -29,8 +29,8 @@ const eventAPI = baseAPI.injectEndpoints({
 
     updateEvent: build.mutation({
       query: ({ eventId, data }) => ({
-        url: `/admin_dashboard/events/${eventId}/`,
-        method: "PUT",
+        url: `/admin_dashboard/admin/events/${eventId}/`,
+        method: "PATCH",
         body: data,
       }),
       invalidatesTags: ["Event"],
