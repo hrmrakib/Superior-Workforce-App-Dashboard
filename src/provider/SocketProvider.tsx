@@ -20,7 +20,11 @@ const SocketContext = createContext<SocketContextType>({
 
 export const useSocket = () => useContext(SocketContext);
 
-export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
+export const WebSocketProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   const [socket, setSocket] = useState<WebSocket | null>(null);
   const currentConversationId = useRef<number | null>(null); // ← track active ID
 

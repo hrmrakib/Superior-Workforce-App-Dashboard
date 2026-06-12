@@ -2,6 +2,22 @@ import baseAPI from "@/redux/api/api";
 
 const settingAPI = baseAPI.injectEndpoints({
   endpoints: (builder) => ({
+    getProfile: builder.query({
+      query: () => ({
+        url: "/profiles/me/",
+      }),
+      providesTags: ["Settings"],
+    }),
+
+    updateProfile: builder.mutation({
+      query: (data) => ({
+        url: "/profiles/me/",
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: ["Settings"],
+    }),
+
     getTermsAndConditions: builder.query({
       query: () => ({
         url: "/settings/terms_conditions/",
@@ -21,6 +37,8 @@ const settingAPI = baseAPI.injectEndpoints({
 });
 
 export const {
+  useGetProfileQuery,
+  useUpdateProfileMutation,
   useGetTermsAndConditionsQuery,
   useUpdateTermsAndConditionsMutation,
 } = settingAPI;
