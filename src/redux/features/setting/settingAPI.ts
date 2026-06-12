@@ -33,15 +33,6 @@ const settingAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ["Settings"],
     }),
-
-    changePassword: builder.mutation({
-      query: (data) => ({
-        url: "/auth/change-password",
-        method: "POST",
-        body: data,
-      }),
-      invalidatesTags: ["Settings"],
-    }),
   }),
 });
 
@@ -50,6 +41,5 @@ export const {
   useUpdateProfileMutation,
   useGetTermsAndConditionsQuery,
   useUpdateTermsAndConditionsMutation,
-  useChangePasswordMutation,
 } = settingAPI;
 export default settingAPI;
