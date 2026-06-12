@@ -46,7 +46,8 @@ export const WebSocketProvider = ({
     console.log("inside provider", conversationId);
 
     const ws = new WebSocket(
-      `wss://api.poolofcast.com/ws/chat/${conversationId}/?token=${token}`,
+      // `wss://api.poolofcast.com/ws/chat/${conversationId}/?token=${token}`,
+      `ws://10.10.12.15:8086/ws/asc/chats/?access_token=${token}`,
     );
 
     ws.onopen = () => console.log("WebSocket connected");

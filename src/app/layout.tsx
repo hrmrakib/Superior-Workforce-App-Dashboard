@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Geist } from "next/font/google";
 import "./globals.css";
 import Providers from "@/redux/features/Providers";
 import { Toaster } from "sonner";
+import { cn } from "@/lib/utils";
+import AppInitializer from "@/components/AppInitializer/AppInitializer";
+
+const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 const inter = Inter({
   subsets: ["latin"],
@@ -22,11 +26,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en' className={`${inter.variable} h-full`}>
+    <html
+      lang='en'
+      className={cn("h-full", inter.variable, "font-sans", geist.variable)}
+    >
       <body className='h-full antialiased'>
         <Providers>
-          <Toaster position='top-right' />
-          {children}
+          <AppInitializer>
+            <Toaster position='top-right' />
+            {children}
+          </AppInitializer>
         </Providers>
       </body>
     </html>
