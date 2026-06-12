@@ -5,6 +5,7 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/hooks/useAuth";
+import { getImageUrl } from "@/lib/getImageUrl";
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -15,8 +16,6 @@ export default function Header({ onMenuClick }: HeaderProps) {
   const router = useRouter();
 
   const { user } = useAuth();
-
-  console.log({ user });
 
   const renderLeftContent = () => {
     if (pathname.startsWith("/manage-jobs/") && pathname !== "/manage-jobs") {
@@ -180,7 +179,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
           </div>
           <div className='w-9 h-9 rounded-full overflow-hidden ring-2 ring-slate-200'>
             <Image
-              src={user?.image || "/placeholder.png"}
+              src={getImageUrl(user?.image) || "/placeholder.png"}
               alt={user?.full_name || "Admin"}
               width={36}
               height={36}
