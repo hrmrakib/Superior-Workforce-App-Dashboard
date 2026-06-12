@@ -10,6 +10,15 @@ const notificationAPI = baseAPI.injectEndpoints({
       providesTags: ["Notification"],
     }),
 
+    getCustomNotifications: build.query({
+      query: (params) => ({
+        url: "/admin_dashboard/user-custom_notification/",
+        method: "GET",
+        params,
+      }),
+      providesTags: ["Notification"],
+    }),
+
     createNotification: build.mutation({
       query: (notificationData) => ({
         url: "/notifications/custom/send/",
@@ -39,6 +48,7 @@ const notificationAPI = baseAPI.injectEndpoints({
 
 export const {
   useGetNotificationsQuery,
+  useGetCustomNotificationsQuery,
   useCreateNotificationMutation,
   useMarkAsReadMutation,
   useDeleteNotificationMutation,

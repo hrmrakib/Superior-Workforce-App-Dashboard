@@ -5,13 +5,13 @@ import {
   useGetSingleEventQuery,
   useUpdateEventMutation,
 } from "@/redux/features/event/eventAPI";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 
 export default function UpdateEventPage() {
   const id = useParams().id;
-
+  const router = useRouter();
   // Form State
   const [title, setTitle] = useState("");
   const [eventDate, setEventDate] = useState("");
@@ -102,6 +102,7 @@ export default function UpdateEventPage() {
       }).unwrap();
 
       toast.success("Event updated successfully!");
+      router.push("/event");
     } catch (error) {
       console.error("Failed to update event:", error);
       toast.error("Failed to update event. Please try again.");
