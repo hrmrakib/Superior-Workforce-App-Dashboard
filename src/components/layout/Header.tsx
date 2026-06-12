@@ -4,6 +4,7 @@ import { Bell, MessageSquare, Menu, ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
+import { useAuth } from "@/hooks/useAuth";
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -12,6 +13,10 @@ interface HeaderProps {
 export default function Header({ onMenuClick }: HeaderProps) {
   const pathname = usePathname();
   const router = useRouter();
+
+  const { user } = useAuth();
+
+  console.log({ user });
 
   const renderLeftContent = () => {
     if (pathname.startsWith("/manage-jobs/") && pathname !== "/manage-jobs") {
@@ -110,7 +115,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
               <ArrowLeft size={20} />
             </button>
             <h1 className='text-xl lg:text-2xl font-bold text-slate-800 leading-none'>
-              Mr. John
+              Messages
             </h1>
           </div>
         </div>
@@ -127,7 +132,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
         </div>
       );
     }
-    return null; // For dashboard, manage-users, manage-jobs (list), it will render nothing or standard.
+    return null;
   };
 
   return (
@@ -170,13 +175,13 @@ export default function Header({ onMenuClick }: HeaderProps) {
         <div className='flex items-center gap-2.5'>
           <div className='text-right hidden sm:block'>
             <p className='text-sm font-semibold text-slate-800 leading-none'>
-              Aiden Max
+              {user?.full_name}
             </p>
           </div>
           <div className='w-9 h-9 rounded-full overflow-hidden ring-2 ring-slate-200'>
             <Image
-              src='https://i.pravatar.cc/40?img=11'
-              alt='Aiden Max'
+              src={user?.image || "/placeholder.png"}
+              alt={user?.full_name || "Admin"}
               width={36}
               height={36}
               className='w-full h-full object-cover'

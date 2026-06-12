@@ -11,10 +11,10 @@ const messagesAPI = baseAPI.injectEndpoints({
     }),
 
     getMessages: builder.query({
-      query: ({ conversationId, page, limit, search }) => ({
+      query: ({ conversationId, page, page_size, search }) => ({
         url: `/chats/messages/${conversationId}`,
         method: "GET",
-        params: { page, limit },
+        params: { page, page_size, search },
       }),
     }),
 
