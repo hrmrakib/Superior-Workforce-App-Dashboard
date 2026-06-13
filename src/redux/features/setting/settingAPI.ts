@@ -33,6 +33,22 @@ const settingAPI = baseAPI.injectEndpoints({
       }),
       invalidatesTags: ["Settings"],
     }),
+
+    getCMS: builder.query({
+      query: () => ({
+        url: "/admin_dashboard/cms/",
+      }),
+      providesTags: ["Settings"],
+    }),
+
+    updateCMS: builder.mutation({
+      query: (data) => ({
+        url: "/admin_dashboard/admin/cms/",
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: ["Settings"],
+    }),
   }),
 });
 
@@ -41,5 +57,7 @@ export const {
   useUpdateProfileMutation,
   useGetTermsAndConditionsQuery,
   useUpdateTermsAndConditionsMutation,
+  useGetCMSQuery,
+  useUpdateCMSMutation,
 } = settingAPI;
 export default settingAPI;
