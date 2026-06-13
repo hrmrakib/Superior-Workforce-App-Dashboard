@@ -16,6 +16,7 @@ import {
 } from "@/data/mockData";
 import type { User, UserDetail } from "@/types";
 import { useGetProfileQuery } from "@/redux/features/setting/settingAPI";
+import ManageUsersPage from "../manage-users/page";
 
 const ITEMS_PER_PAGE = 6;
 
@@ -88,19 +89,21 @@ export default function DashboardPage() {
             Recent Users
           </h3>
         </div>
-        <UsersTable
+
+        <ManageUsersPage hasStats={false} />
+        {/* <UsersTable
           users={recentUsers}
           selectedIds={selectedIds}
           onSelectAll={handleSelectAll}
           onSelectOne={handleSelectOne}
           onView={handleView}
           onDelete={handleDelete}
-        />
-        <Pagination
+        /> */}
+        {/* <Pagination
           currentPage={currentPage}
           totalPages={10}
           onPageChange={setCurrentPage}
-        />
+        /> */}
       </div>
 
       {/* Modals */}

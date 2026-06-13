@@ -175,7 +175,7 @@ export default function SupportPage() {
 
               {/* Status Update Trigger Buttons */}
               <div className='flex items-center gap-2'>
-                {report.status !== "Resolved" && (
+                {report.status === "Pending" && (
                   <button
                     onClick={() => handleOpenModal(report.id, "Resolved")}
                     className='flex items-center gap-1 px-3 py-1.5 bg-white border border-emerald-200 text-emerald-600 hover:bg-emerald-50 text-xs font-semibold rounded-md transition-colors'
@@ -184,7 +184,7 @@ export default function SupportPage() {
                     Approve
                   </button>
                 )}
-                {report.status !== "Rejected" && (
+                {report.status === "Pending" && (
                   <button
                     onClick={() => handleOpenModal(report.id, "Rejected")}
                     className='flex items-center gap-1 px-3 py-1.5 bg-white border border-rose-200 text-rose-600 hover:bg-rose-50 text-xs font-semibold rounded-md transition-colors'

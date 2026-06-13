@@ -340,7 +340,11 @@ function UserDetailModal({ user, onClose }: UserDetailModalProps) {
 type TabKey = "all" | "active" | "pending";
 const ITEMS_PER_PAGE = 10;
 
-export default function ManageUsersPage() {
+export default function ManageUsersPage({
+  hasStats = true,
+}: {
+  hasStats?: boolean;
+}) {
   const [activeTab, setActiveTab] = useState<TabKey>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [filterRole, setFilterRole] = useState("All");
@@ -403,7 +407,7 @@ export default function ManageUsersPage() {
 
   return (
     <>
-      <StatsCards stats={statsData} />
+      {hasStats && <StatsCards stats={statsData} />}
 
       <div className='mt-5 bg-white rounded-xl border border-slate-200 overflow-hidden'>
         {/* Toolbar */}
