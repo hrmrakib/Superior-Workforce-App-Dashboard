@@ -8,6 +8,7 @@ const jobsAPI = baseAPI.injectEndpoints({
         method: "GET",
         params,
       }),
+      providesTags: ["Job"],
     }),
 
     getSingleJob: builder.query({
@@ -15,6 +16,7 @@ const jobsAPI = baseAPI.injectEndpoints({
         url: `/admin_dashboard/admin/jobs/${jobId}/`,
         method: "GET",
       }),
+      providesTags: ["Job"],
     }),
 
     updateJob: builder.mutation({
@@ -23,6 +25,7 @@ const jobsAPI = baseAPI.injectEndpoints({
         method: "PATCH",
         body: updatedData,
       }),
+      invalidatesTags: ["Job"],
     }),
   }),
 });

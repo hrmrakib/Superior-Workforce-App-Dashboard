@@ -232,7 +232,10 @@ export default function Header({ onMenuClick }: HeaderProps) {
         </Link>
 
         {/* Notification bell */}
-        <button className='relative p-2 rounded-full hover:bg-slate-100 text-slate-500 transition-colors'>
+        <button
+          onClick={() => router.push("/notifications")}
+          className='relative p-2 rounded-full hover:bg-slate-100 text-slate-500 transition-colors'
+        >
           <Bell size={19} />
           <span className='absolute top-1 right-1 w-2 h-2 bg-orange-500 rounded-full' />
         </button>

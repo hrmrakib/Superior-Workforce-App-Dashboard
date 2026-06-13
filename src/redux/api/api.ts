@@ -120,6 +120,7 @@ export const baseAPI = createApi({
     "Report",
     "Event",
     "Notification",
+    "Job",
   ],
   endpoints: () => ({}),
 });
