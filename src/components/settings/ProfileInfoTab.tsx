@@ -15,7 +15,7 @@ export default function ProfileInfoTab() {
 
   const [name, setName] = useState(user?.full_name || "");
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string>(user?.image || "");
+  const [imagePreview, setImagePreview] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {

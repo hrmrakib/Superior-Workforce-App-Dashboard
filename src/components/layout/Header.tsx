@@ -58,6 +58,20 @@ export default function Header({ onMenuClick }: HeaderProps) {
         </div>
       );
     }
+    if (pathname === "/manage-users") {
+      return (
+        <div className='flex flex-col'>
+          <div className='flex items-center gap-3'>
+            <h1 className='text-xl lg:text-2xl font-bold text-slate-800 leading-none'>
+              Manage Users
+            </h1>
+          </div>
+          <p className='text-xs lg:text-sm text-slate-500 mt-1 leading-none'>
+            From here you can manage your all user
+          </p>
+        </div>
+      );
+    }
     if (pathname === "/send-notification") {
       return (
         <div className='flex flex-col'>
@@ -171,7 +185,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
         <div className='h-6 w-px bg-slate-200 mx-1' />
 
         {/* User info */}
-        <div className='flex items-center gap-2.5'>
+        <Link href='/settings' className='flex items-center gap-2.5'>
           <div className='text-right hidden sm:block'>
             <p className='text-sm font-semibold text-slate-800 leading-none'>
               {user?.full_name}
@@ -187,7 +201,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
               unoptimized
             />
           </div>
-        </div>
+        </Link>
       </div>
 
       {/* Mobile Title */}

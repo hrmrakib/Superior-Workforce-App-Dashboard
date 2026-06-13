@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import {
   Search,
@@ -26,8 +26,9 @@ import {
   useGetAllUsersQuery,
   useLazyGetSingleUserQuery,
 } from "@/redux/features/user/userAPI";
+import useDebounce from "@/hooks/useDebounce";
 
-// --- Types based on your provided JSON ---
+// --- Types ---
 export interface UserListItem {
   id: number;
   email: string;
@@ -337,7 +338,7 @@ function UserDetailModal({ user, onClose }: UserDetailModalProps) {
 
 // --- Main Page Component ---
 type TabKey = "all" | "active" | "pending";
-const ITEMS_PER_PAGE = 15;
+const ITEMS_PER_PAGE = 10;
 
 export default function ManageUsersPage() {
   const [activeTab, setActiveTab] = useState<TabKey>("all");
@@ -348,57 +349,33 @@ export default function ManageUsersPage() {
   const [activeModal, setActiveModal] = useState<UserDetail | null>(null);
   const [fetchingId, setFetchingId] = useState<number | null>(null);
 
-  // RTK Query hooks
-  const { data: responseData } = useGetAllUsersQuery({});
+  // Adjusted debounce from 5500 to 500 for normal backend response behavior
+  const debounceQuery = useDebounce(searchQuery, 500);
+
+  // RTK Query hook passing parameters dynamically to the backend API endpoint
+  const { data: responseData } = useGetAllUsersQuery({
+    page: currentPage,
+    page_size: ITEMS_PER_PAGE,
+    search: debounceQuery,
+    is_active:
+      activeTab === "active"
+        ? true
+        : activeTab === "pending"
+          ? false
+          : undefined,
+    user_type: filterRole === "All" ? undefined : filterRole,
+  });
   const [triggerGetSingleUser] = useLazyGetSingleUserQuery();
 
-  // Extracting data array safely
+  // Extract pure server-delivered data array securely
   const allUsers: UserListItem[] = responseData?.data || [];
+  const totalPages = responseData?.meta?.total_pages || 1;
 
-  const TABS: { key: TabKey; label: string; count: number }[] = [
-    { key: "all", label: "All Users", count: allUsers.length },
-    {
-      key: "active",
-      label: "Active Users",
-      count: allUsers.filter((u) => u.is_active).length,
-    },
-    {
-      key: "pending",
-      label: "Pending Users",
-      count: allUsers.filter((u) => !u.is_active).length,
-    },
+  const TABS: { key: TabKey; label: string }[] = [
+    { key: "all", label: "All Users" },
+    { key: "active", label: "Active Users" },
+    { key: "pending", label: "Pending Users" },
   ];
-
-  // Filter List Base
-  const sourceList = useMemo(() => {
-    if (activeTab === "active") return allUsers.filter((u) => u.is_active);
-    if (activeTab === "pending") return allUsers.filter((u) => !u.is_active);
-    return allUsers;
-  }, [activeTab, allUsers]);
-
-  // Search & Role Filtering
-  const filtered = useMemo(() => {
-    return sourceList.filter((u) => {
-      const matchSearch =
-        !searchQuery ||
-        u.full_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        u.email.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchRole =
-        filterRole === "All" ||
-        u.user_type.toLowerCase() === filterRole.toLowerCase();
-      return matchSearch && matchRole;
-    });
-  }, [sourceList, searchQuery, filterRole]);
-
-  // Pagination Logic
-  const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
-  const paginated = filtered.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE,
-  );
-
-  const allSelected =
-    paginated.length > 0 && selectedIds.length === paginated.length;
 
   const handleTabChange = (tab: TabKey) => {
     setActiveTab(tab);
@@ -406,20 +383,9 @@ export default function ManageUsersPage() {
     setSelectedIds([]);
   };
 
-  const handleSelectAll = (checked: boolean) => {
-    setSelectedIds(checked ? paginated.map((u) => u.id) : []);
-  };
-
-  const handleSelectOne = (id: number, checked: boolean) => {
-    setSelectedIds((prev) =>
-      checked ? [...prev, id] : prev.filter((i) => i !== id),
-    );
-  };
-
   const handleView = async (user: UserListItem) => {
     setFetchingId(user.id);
     try {
-      // Imperatively trigger RTK Query for specific ID and unwrap response
       const res = await triggerGetSingleUser(user.id.toString()).unwrap();
       if (res?.success && res?.data) {
         setActiveModal(res.data);
@@ -437,13 +403,6 @@ export default function ManageUsersPage() {
 
   return (
     <>
-      <div className='mb-5'>
-        <h1 className='text-2xl font-bold text-slate-800'>Manage Users</h1>
-        <p className='text-sm text-slate-500 mt-0.5'>
-          From here you can manage all your users
-        </p>
-      </div>
-
       <StatsCards stats={statsData} />
 
       <div className='mt-5 bg-white rounded-xl border border-slate-200 overflow-hidden'>
@@ -460,14 +419,7 @@ export default function ManageUsersPage() {
                     : "text-slate-500 hover:bg-slate-100"
                 }`}
               >
-                {tab.label}{" "}
-                <span
-                  className={`text-xs ${
-                    activeTab === tab.key ? "text-teal-100" : "text-slate-400"
-                  }`}
-                >
-                  ({tab.count})
-                </span>
+                {tab.label}
               </button>
             ))}
           </div>
@@ -516,13 +468,14 @@ export default function ManageUsersPage() {
           <table className='w-full min-w-175'>
             <thead>
               <tr className='border-b border-slate-200 bg-slate-50'>
-                <th className='w-10 pl-4 py-3'>
-                  <input
+                <th className='w-10 pl-4 text-xs font-semibold text-slate-500 uppercase tracking-wide px-3 py-3'>
+                  Serial
+                  {/* <input
                     type='checkbox'
                     checked={allSelected}
                     onChange={(e) => handleSelectAll(e.target.checked)}
                     className='rounded border-slate-300 text-teal-600 focus:ring-teal-500 cursor-pointer'
-                  />
+                  /> */}
                 </th>
                 <th className='text-left text-xs font-semibold text-slate-500 uppercase tracking-wide px-3 py-3'>
                   User
@@ -545,7 +498,7 @@ export default function ManageUsersPage() {
               </tr>
             </thead>
             <tbody className='divide-y divide-slate-100'>
-              {paginated.map((user) => {
+              {allUsers.map((user, index) => {
                 const isSelected = selectedIds.includes(user.id);
                 const isButtonLoading = fetchingId === user.id;
 
@@ -557,14 +510,15 @@ export default function ManageUsersPage() {
                     }`}
                   >
                     <td className='pl-4 py-3'>
-                      <input
+                      {index + 1}.
+                      {/* <input
                         type='checkbox'
                         checked={isSelected}
                         onChange={(e) =>
                           handleSelectOne(user.id, e.target.checked)
                         }
                         className='rounded border-slate-300 text-teal-600 focus:ring-teal-500 cursor-pointer'
-                      />
+                      /> */}
                     </td>
                     <td className='px-3 py-3'>
                       <div className='flex items-center gap-2.5'>
@@ -622,7 +576,7 @@ export default function ManageUsersPage() {
                 );
               })}
 
-              {paginated.length === 0 && (
+              {allUsers.length === 0 && (
                 <tr>
                   <td
                     colSpan={7}
