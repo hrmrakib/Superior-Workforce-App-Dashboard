@@ -18,6 +18,20 @@ export default function Header({ onMenuClick }: HeaderProps) {
   const { user } = useAuth();
 
   const renderLeftContent = () => {
+    if (pathname.startsWith("/dashboard")) {
+      return (
+        <div className='flex flex-col'>
+          <div className='flex items-center gap-3'>
+            <h1 className='text-xl lg:text-2xl font-bold text-slate-800 leading-none'>
+              Dashboard
+            </h1>
+          </div>
+          <p className='text-xs lg:text-sm text-slate-500 mt-1 leading-none'>
+            From here you can manage your mobile app
+          </p>
+        </div>
+      );
+    }
     if (pathname.startsWith("/manage-jobs/") && pathname !== "/manage-jobs") {
       return (
         <div className='flex flex-col'>
@@ -58,6 +72,20 @@ export default function Header({ onMenuClick }: HeaderProps) {
         </div>
       );
     }
+    if (pathname === "/event") {
+      return (
+        <div className='flex flex-col'>
+          <div className='flex items-center gap-3'>
+            <h1 className='text-xl lg:text-2xl font-bold text-slate-800 leading-none'>
+              Create Event
+            </h1>
+          </div>
+          <p className='text-xs lg:text-sm text-slate-500 mt-1 leading-none'>
+            You can create a new event
+          </p>
+        </div>
+      );
+    }
     if (pathname === "/manage-users") {
       return (
         <div className='flex flex-col'>
@@ -82,6 +110,20 @@ export default function Header({ onMenuClick }: HeaderProps) {
           </div>
           <p className='text-xs lg:text-sm text-slate-500 mt-1 leading-none'>
             From here you can manage all job
+          </p>
+        </div>
+      );
+    }
+    if (pathname === "/managewithdrawal") {
+      return (
+        <div className='flex flex-col'>
+          <div className='flex items-center gap-3'>
+            <h1 className='text-xl lg:text-2xl font-bold text-slate-800 leading-none'>
+              Withdrawal
+            </h1>
+          </div>
+          <p className='text-xs lg:text-sm text-slate-500 mt-1 leading-none'>
+            From here you can manage all withdrawal
           </p>
         </div>
       );
@@ -135,16 +177,13 @@ export default function Header({ onMenuClick }: HeaderProps) {
       return (
         <div className='flex flex-col'>
           <div className='flex items-center gap-3'>
-            <button
-              onClick={() => router.back()}
-              className='text-slate-600 hover:text-slate-900 transition-colors'
-            >
-              <ArrowLeft size={20} />
-            </button>
             <h1 className='text-xl lg:text-2xl font-bold text-slate-800 leading-none'>
               Messages
             </h1>
           </div>
+          <p className='text-xs lg:text-sm text-slate-500 mt-1 leading-none'>
+            From here you can manage all messages & chat
+          </p>
         </div>
       );
     }
@@ -156,6 +195,9 @@ export default function Header({ onMenuClick }: HeaderProps) {
               Settings
             </h1>
           </div>
+          <p className='text-xs lg:text-sm text-slate-500 mt-1 leading-none'>
+            From here you can manage your settings
+          </p>
         </div>
       );
     }
