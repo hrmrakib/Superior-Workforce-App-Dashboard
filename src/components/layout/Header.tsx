@@ -72,6 +72,20 @@ export default function Header({ onMenuClick }: HeaderProps) {
         </div>
       );
     }
+    if (pathname === "/manage-jobs") {
+      return (
+        <div className='flex flex-col'>
+          <div className='flex items-center gap-3'>
+            <h1 className='text-xl lg:text-2xl font-bold text-slate-800 leading-none'>
+              Job Management
+            </h1>
+          </div>
+          <p className='text-xs lg:text-sm text-slate-500 mt-1 leading-none'>
+            From here you can manage all job
+          </p>
+        </div>
+      );
+    }
     if (pathname === "/send-notification") {
       return (
         <div className='flex flex-col'>

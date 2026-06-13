@@ -13,6 +13,7 @@ import {
   LogOut,
   X,
   MessageSquare,
+  BanknoteArrowUp,
 } from "lucide-react";
 import Image from "next/image";
 
@@ -25,6 +26,11 @@ const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/manage-users", label: "Manage Users", icon: Users },
   { href: "/manage-jobs", label: "Manage Jobs", icon: Briefcase },
+  {
+    href: "/managewithdrawal",
+    label: "Manage Withdrawal",
+    icon: BanknoteArrowUp,
+  },
   { href: "/send-notification", label: "Send Notification", icon: Bell },
   { href: "/event", label: "Event", icon: Calendar },
   { href: "/messages", label: "Messages", icon: MessageSquare },
@@ -40,7 +46,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       {/* Overlay for mobile */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/40 z-30 lg:hidden"
+          className='fixed inset-0 bg-black/40 z-30 lg:hidden'
           onClick={onClose}
         />
       )}
@@ -55,34 +61,35 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         `}
       >
         {/* Logo */}
-        <div className="flex items-center justify-center h-20 px-5 shrink-0">
-          <div className="flex items-center justify-center h-full py-2">
+        <div className='flex items-center justify-center h-20 px-5 shrink-0'>
+          <div className='flex items-center justify-center h-full py-2'>
             <Image
-              src="/logo.png"
-              alt="Logo"
+              src='/logo.png'
+              alt='Logo'
               width={500}
               height={250}
-              className="h-full w-auto object-contain"
+              className='h-full w-auto object-contain'
             />
           </div>
 
           {/* Close button for mobile */}
           <button
             onClick={onClose}
-            className="lg:hidden p-1 rounded-md hover:bg-slate-100 text-slate-500"
+            className='lg:hidden p-1 rounded-md hover:bg-slate-100 text-slate-500'
           >
             <X size={18} />
           </button>
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 overflow-y-auto py-4 px-3">
-          <ul className="space-y-2">
+        <nav className='flex-1 overflow-y-auto py-4 px-3'>
+          <ul className='space-y-2'>
             {navItems.map(({ href, label, icon: Icon }) => {
               const isActive =
                 pathname === href ||
                 (href !== "/dashboard" && pathname.startsWith(href)) ||
-                (href === "/send-notification" && pathname === "/create-notification");
+                (href === "/send-notification" &&
+                  pathname === "/create-notification");
               return (
                 <li key={href}>
                   <Link
@@ -91,9 +98,10 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                     className={`
                       flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium
                       transition-colors duration-150
-                      ${isActive
-                        ? "bg-[#E5F1FF] text-[#3E4955"
-                        : "text-slate-600 hover:bg-slate-100 hover:text-slate-800"
+                      ${
+                        isActive
+                          ? "bg-[#E5F1FF] text-[#3E4955"
+                          : "text-slate-600 hover:bg-slate-100 hover:text-slate-800"
                       }
                     `}
                   >
@@ -110,8 +118,8 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         </nav>
 
         {/* Logout */}
-        <div className="px-3 py-4 border-t border-slate-200 shrink-0">
-          <button className="flex items-center gap-3 px-3 py-2.5 w-full rounded-lg text-sm font-medium text-orange-500 hover:bg-orange-50 transition-colors">
+        <div className='px-3 py-4 border-t border-slate-200 shrink-0'>
+          <button className='flex items-center gap-3 px-3 py-2.5 w-full rounded-lg text-sm font-medium text-orange-500 hover:bg-orange-50 transition-colors'>
             <LogOut size={17} />
             Logout
           </button>

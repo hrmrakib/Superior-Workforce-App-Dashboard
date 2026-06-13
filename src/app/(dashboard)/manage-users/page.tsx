@@ -469,7 +469,7 @@ export default function ManageUsersPage() {
             <thead>
               <tr className='border-b border-slate-200 bg-slate-50'>
                 <th className='w-10 pl-4 text-xs font-semibold text-slate-500 uppercase tracking-wide px-3 py-3'>
-                  Serial
+                  #
                   {/* <input
                     type='checkbox'
                     checked={allSelected}
